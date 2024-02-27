@@ -6,7 +6,7 @@
 /*   By: edforte <edforte@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:22:42 by edforte           #+#    #+#             */
-/*   Updated: 2024/02/09 07:10:45 by edforte          ###   ########.fr       */
+/*   Updated: 2024/02/27 17:06:11 by edforte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 char	*reading_lines(int fd, int *i, char *buffer, char *str)
 {
-	char			*newline;
+	char	*newline;
 
 	newline = NULL;
+
 	*i = read(fd, buffer, BUFFER_SIZE);
 	if (*i == 0 || *i == -1)
-		return (NULL);
+		return (str);
 	buffer[BUFFER_SIZE] = '\0';
 	newline = ft_strchr(buffer, '\n');
 	if (!str)
@@ -30,8 +31,8 @@ char	*reading_lines(int fd, int *i, char *buffer, char *str)
 	{
 		*i = read(fd, buffer, BUFFER_SIZE);
 		if (*i == 0 || *i == -1)
-			return (NULL);
-		buffer[BUFFER_SIZE] = '\0';
+			break ;
+		buffer[*i] = '\0';
 		str = ft_strjoin(str, buffer);
 		newline = ft_strchr(buffer, '\n');
 	}
@@ -44,27 +45,28 @@ char	*trimmed_string(char *s1)
 	int		i;
 
 	i = 0;
-	while (s1[i] != '\n')
+	while (s1[i] != '\n' && s1[i])
 		i ++;
 	s2 = (char *)malloc((i + 2) * sizeof(char));
 	i = 0;
-	while (s1[i] != '\n')
+	while (s1[i] != '\n' && s1[i])
 	{
 		s2[i] = s1[i];
 		i ++;
 	}
-	s2[i++] = '\n';
+	if (s1[i] == '\n')
+		s2[i++] = '\n';
 	s2[i] = '\0';
 	return (s2);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		buffer[BUFFER_SIZE + 1];
-	char			*str;
-	int				i;
-	char			*newline;
-	char			*tmp;
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*str;
+	int			i;
+	char		*newline;
+	char		*tmp;
 
 	i = 0;
 	newline = NULL;
@@ -76,10 +78,15 @@ char	*get_next_line(int fd)
 		if (!str)
 			return (NULL);
 	}
+	printf("str1: %s\n", str);
 	str = reading_lines(fd, &i, buffer, str);
+	if ((i == 0 && !str) || i == -1)
+		return (NULL);
 	if (str == NULL)
 		return (NULL);
-	ft_strlcpy(buffer, (ft_strchr(str, '\n') + 1), (BUFFER_SIZE));
+	if (ft_strchr(str, '\n'))
+		ft_strlcpy(buffer, (ft_strchr(str, '\n') + 1), (BUFFER_SIZE));
+	printf("str2 : %s\n", str);
 	tmp = trimmed_string(str);
 	free(str);
 	return (tmp);
@@ -97,38 +104,38 @@ int	main(void)
 	str = get_next_line(fd);
 	printf("str = %s\n", str);
 	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
-	str = get_next_line(fd);
-	printf("str = %s\n", str);
-	free (str);
+// 	str = get_next_line(fd);
+// 	printf("str = %s\n", str);
+// 	free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
+	// str = get_next_line(fd);
+	// printf("str = %s\n", str);
+	// free (str);
 	return (0);
 }

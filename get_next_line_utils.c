@@ -6,7 +6,7 @@
 /*   By: edforte <edforte@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:22:46 by edforte           #+#    #+#             */
-/*   Updated: 2024/02/09 05:02:53 by edforte          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:40:24 by edforte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 	i = 0;
 	j = 0;
+	if (!src)
+		return (0);
 	while (src[i])
 		i ++;
 	if (dstsize == 0)
